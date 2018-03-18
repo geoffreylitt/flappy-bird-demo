@@ -178,13 +178,16 @@
 (defn main-template [{:keys [score cur-time jump-count
                              timer-running border-pos
                              flappy-y pillar-list]}]
-  (sab/html [:div.board { :onMouseDown (fn [e]
-                                         (swap! flap-state jump)
-                                         (.preventDefault e))}
+  (sab/html [:div.board { :tabIndex 0 :onKeyDown (fn [e]
+                                        (do
+                                          (println "doin stuff")
+                                           (if (= 32 32)
+                                           (swap! flap-state jump)
+                                           (.preventDefault e))))}
              [:h1.score score]
              (if-not timer-running
                [:a.start-button {:onClick #(start-game)}
-                (if (< 1 jump-count) "RESTART" "START")]
+                (if (< 1 jump-count) "REDO" "START")]
                [:span])
              [:div (map pillar pillar-list)]
              [:div.flappy {:style {:top (px flappy-y)}}]
